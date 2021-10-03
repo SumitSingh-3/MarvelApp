@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/frg_character"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav">
+
+    <fragment
+        android:id="@+id/frg_character"
+        android:name="com.marvelapp.ui.character.CharacterFragment"
+        android:label="@string/character"
+        tools:layout="@layout/fragment_character"/>
+
+    <fragment
+        android:id="@+id/frg_comic"
+        android:name="com.marvelapp.ui.comic.ComicFragment"
+        android:label="@string/comic"
+        tools:layout="@layout/fragment_comic"/>
+
+</navigation>

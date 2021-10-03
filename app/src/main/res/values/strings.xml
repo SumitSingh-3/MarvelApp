@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MarvelApp</string>
+    <string name="comic">Comic</string>
+    <string name="character">Character</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

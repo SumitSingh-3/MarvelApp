@@ -9,7 +9,8 @@ import com.marvelapp.modals.character.CharacterResponse
 
 class CharacterDataSourceFactory(
     var error: MutableLiveData<Errors>,
-    var charResponse: MutableLiveData<CharacterResponse>
+    var charResponse: MutableLiveData<CharacterResponse>,
+    var bottomLoader: MutableLiveData<Boolean>
 ) :
     DataSource.Factory<Int, Character>() {
 
@@ -18,12 +19,8 @@ class CharacterDataSourceFactory(
     var search: String? = null
 
     override fun create(): DataSource<Int, Character> {
-        itemDataSource = CharacterDataSource(error, charResponse, search)
+        itemDataSource = CharacterDataSource(error, charResponse, bottomLoader, search)
         itemLiveDataSource.postValue(itemDataSource!!)
         return itemDataSource as CharacterDataSource
-    }
-
-    init {
-        this.charResponse = charResponse
     }
 }

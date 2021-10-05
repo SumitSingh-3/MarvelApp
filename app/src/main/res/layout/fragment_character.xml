@@ -17,6 +17,9 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/search_hint_character"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:singleLine="true"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -26,9 +29,31 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottomLoader"
             app:layout_constraintTop_toBottomOf="@+id/search_bar"
             tools:listitem="@layout/adapter_grid" />
+
+        <ProgressBar
+            android:id="@+id/loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/bottomLoader"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingVertical="8dp"
+            android:visibility="visible"
+            android:indeterminateOnly="true"
+            style="?android:attr/progressBarStyleHorizontal"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

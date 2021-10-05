@@ -14,6 +14,6 @@ interface IApiService {
     fun getCharacterList(
         @Query("offset") pageNo: Int,
         @Query("limit") limit: Int,
-        @Query("name") search: String?
+        @Query("nameStartsWith") search: String?
     ): Call<BaseResponse<CharacterResponse?>>
 }

@@ -2,12 +2,15 @@ package com.marvelapp.ui.character.paging
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.marvelapp.databinding.AdapterGridBinding
+import com.marvelapp.databinding.AdapterLoadingBinding
 import com.marvelapp.modals.character.Character
+import com.marvelapp.utils.AppUtil
 
 
 class CharacterPagingAdapter :
@@ -38,9 +41,13 @@ class CharacterPagingAdapter :
 
     inner class ViewHolder(private val binding: AdapterGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(char: Character){
-                binding.name.text = char.name
-            }
+        fun bind(char: Character) {
+            binding.name.text = char.name
+            AppUtil.loadImage(
+                binding.image,
+                "${char.thumbnail.path}.${char.thumbnail.extension}"
+            )
+        }
     }
 
 }

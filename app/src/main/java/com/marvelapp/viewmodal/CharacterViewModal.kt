@@ -19,14 +19,15 @@ class CharacterViewModal : ViewModel() {
 
     var error = MutableLiveData<Errors>()
     var charResponse = MutableLiveData<CharacterResponse>()
+    var bottomLoader = MutableLiveData<Boolean>()
 
-    fun updateValues( search: String) {
+    fun updateValues( search: String?) {
         itemDataSourceFactory.search = search
     }
 
     init {
         itemDataSourceFactory =
-            CharacterDataSourceFactory(error, charResponse)
+            CharacterDataSourceFactory(error, charResponse, bottomLoader)
         pagedListConfig = PagedList.Config.Builder()
             .setPageSize(CharacterDataSource.PAGE_SIZE)
             .setInitialLoadSizeHint(CharacterDataSource.PAGE_SIZE)

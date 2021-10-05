@@ -1,5 +1,6 @@
 package com.marvelapp.ui.character.paging
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.marvelapp.domain.APICallHandler
@@ -12,6 +13,7 @@ import com.marvelapp.modals.character.CharacterResponse
 class CharacterDataSource(
     var error: MutableLiveData<Errors>,
     var charResponse: MutableLiveData<CharacterResponse>,
+    var bottomLoader: MutableLiveData<Boolean>,
     var search: String?
     ): PageKeyedDataSource<Int, Character>(), APICallHandler<Any?> {
 
@@ -33,8 +35,10 @@ class CharacterDataSource(
     var params1: LoadParams<Int>? = null
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Character>) {
         params1 = params
+        callbackAfter = callback
+        bottomLoader.postValue(true)
         val apiCallManager = APICallManager(APIType.CHARACTER_AFTER, this)
-        apiCallManager.getCharactersAPI(params.key, PAGE_SIZE, search)
+        apiCallManager.getCharactersAPI(params.key + PAGE_SIZE, PAGE_SIZE, search)
     }
 
     override fun onSuccess(apiType: APIType, response: Any?) {
@@ -45,21 +49,23 @@ class CharacterDataSource(
                    val videoData: MutableList<Character> = ArrayList()
                    this.charResponse.postValue(charRes)
                    videoData.addAll(charRes.results)
-                   callbackFirst!!.onResult(videoData, null, FIRST_PAGE + 1)
+                   callbackFirst!!.onResult(videoData, null, FIRST_PAGE)
                }
            }
            APIType.CHARACTER_AFTER -> {
                val charRes = response as CharacterResponse?
+               bottomLoader.postValue(false)
                if (callbackAfter != null && charRes?.results != null) {
-                   callbackAfter!!.onResult(charRes.results, params1!!.key + 1)
+                   callbackAfter!!.onResult(charRes.results, params1!!.key + PAGE_SIZE)
                }
            }
-           else -> println("AAAAAAAA do nothing")
        }
     }
 
     override fun onFailure(apiType: APIType, error: Any?) {
-        println("AAAAAAAA api fail $error")
+        val er = Errors()
+        er.message = "Api Error $error"
+        this.error.postValue(er)
     }
 
     companion object {

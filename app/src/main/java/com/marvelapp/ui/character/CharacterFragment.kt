@@ -41,6 +41,11 @@ class CharacterFragment : Fragment() {
         binding.recyclerView.adapter = pagingAdapter
 
 
+        setListener()
+        setObserver()
+    }
+
+    private fun setListener() {
         binding.searchBar.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
@@ -51,13 +56,23 @@ class CharacterFragment : Fragment() {
             }
         }
 
-        setObserver()
+        binding.clearText.setOnClickListener{
+            binding.searchBar.setText("")
+            binding.clearText.visibility = View.GONE
+            searchCharacter()
+        }
+
     }
 
     private fun searchCharacter(){
+        binding.searchBar.clearFocus()
         val searchText = binding.searchBar.text.toString()
         binding.loader.visibility = View.VISIBLE
         AppUtil.hideKeyboard(binding.searchBar)
+
+        if (searchText.isNotEmpty())
+            binding.clearText.visibility = View.VISIBLE
+
         viewModel.updateValues(if (searchText.isEmpty()) null else searchText)
         viewModel.itemPagedList.value?.dataSource?.invalidate()
     }

@@ -52,4 +52,13 @@ class APICallManager<T>(
         APIClient.getClient().getCharacterList(pageNo, limit, search)
             .enqueue(this@APICallManager as Callback<BaseResponse<PagingListResponse?>>)
     }
+
+    fun getComicAPI(
+        pageNo: Int,
+        limit: Int,
+        filter: String?,
+    ) {
+        APIClient.getClient().getComicList(pageNo, limit, filter)
+            .enqueue(this@APICallManager as Callback<BaseResponse<PagingListResponse?>>)
+    }
 }

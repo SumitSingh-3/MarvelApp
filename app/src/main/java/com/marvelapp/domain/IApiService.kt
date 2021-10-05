@@ -15,4 +15,11 @@ interface IApiService {
         @Query("limit") limit: Int,
         @Query("nameStartsWith") search: String?
     ): Call<BaseResponse<PagingListResponse?>>
+
+    @GET("v1/public/comics")
+    fun getComicList(
+        @Query("offset") pageNo: Int,
+        @Query("limit") limit: Int,
+        @Query("dateRange") filter: String?
+    ): Call<BaseResponse<PagingListResponse?>>
 }

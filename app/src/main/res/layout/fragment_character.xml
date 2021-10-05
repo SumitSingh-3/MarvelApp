@@ -45,9 +45,8 @@
         <ProgressBar
             android:id="@+id/bottomLoader"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:paddingVertical="8dp"
-            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             android:indeterminateOnly="true"
             style="?android:attr/progressBarStyleHorizontal"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView"

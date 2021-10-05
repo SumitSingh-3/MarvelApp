@@ -1,39 +1,38 @@
 package com.marvelapp.ui.character.paging
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.marvelapp.domain.APICallHandler
 import com.marvelapp.domain.APICallManager
 import com.marvelapp.domain.APIType
 import com.marvelapp.modals.base.Errors
-import com.marvelapp.modals.character.Character
-import com.marvelapp.modals.character.CharacterResponse
+import com.marvelapp.modals.base.PagingListResponse
+import com.marvelapp.modals.common.PagingItem
 
 class CharacterDataSource(
     var error: MutableLiveData<Errors>,
-    var charResponse: MutableLiveData<CharacterResponse>,
+    var charResponse: MutableLiveData<PagingListResponse>,
     var bottomLoader: MutableLiveData<Boolean>,
     var search: String?
-    ): PageKeyedDataSource<Int, Character>(), APICallHandler<Any?> {
+    ): PageKeyedDataSource<Int, PagingItem>(), APICallHandler<Any?> {
 
-    private var callbackFirst: LoadInitialCallback<Int, Character>? = null
-    private var callbackAfter: LoadCallback<Int, Character>? = null
+    private var callbackFirst: LoadInitialCallback<Int, PagingItem>? = null
+    private var callbackAfter: LoadCallback<Int, PagingItem>? = null
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, Character>
+        callback: LoadInitialCallback<Int, PagingItem>
     ) {
         callbackFirst = callback
         val apiCallManager = APICallManager(APIType.CHARACTER, this)
         apiCallManager.getCharactersAPI(FIRST_PAGE, PAGE_SIZE, search)
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Character>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, PagingItem>) {
     }
 
     var params1: LoadParams<Int>? = null
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Character>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, PagingItem>) {
         params1 = params
         callbackAfter = callback
         bottomLoader.postValue(true)
@@ -44,16 +43,16 @@ class CharacterDataSource(
     override fun onSuccess(apiType: APIType, response: Any?) {
        when(apiType) {
            APIType.CHARACTER -> {
-               val charRes: CharacterResponse? = response as CharacterResponse?
+               val charRes: PagingListResponse? = response as PagingListResponse?
                if (callbackFirst != null && charRes?.results != null) {
-                   val videoData: MutableList<Character> = ArrayList()
+                   val data: MutableList<PagingItem> = ArrayList()
                    this.charResponse.postValue(charRes)
-                   videoData.addAll(charRes.results)
-                   callbackFirst!!.onResult(videoData, null, FIRST_PAGE)
+                   data.addAll(charRes.results)
+                   callbackFirst!!.onResult(data, null, FIRST_PAGE)
                }
            }
            APIType.CHARACTER_AFTER -> {
-               val charRes = response as CharacterResponse?
+               val charRes = response as PagingListResponse?
                bottomLoader.postValue(false)
                if (callbackAfter != null && charRes?.results != null) {
                    callbackAfter!!.onResult(charRes.results, params1!!.key + PAGE_SIZE)

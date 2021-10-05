@@ -2,8 +2,7 @@ package com.marvelapp.domain
 
 import com.marvelapp.modals.base.BaseResponse
 import com.marvelapp.modals.base.Errors
-import com.marvelapp.modals.character.Character
-import com.marvelapp.modals.character.CharacterResponse
+import com.marvelapp.modals.base.PagingListResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +50,6 @@ class APICallManager<T>(
         search: String?,
     ) {
         APIClient.getClient().getCharacterList(pageNo, limit, search)
-            .enqueue(this@APICallManager as Callback<BaseResponse<CharacterResponse?>>)
+            .enqueue(this@APICallManager as Callback<BaseResponse<PagingListResponse?>>)
     }
 }

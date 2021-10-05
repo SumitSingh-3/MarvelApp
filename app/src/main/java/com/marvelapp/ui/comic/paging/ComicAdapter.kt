@@ -1,4 +1,4 @@
-package com.marvelapp.ui.comic
+package com.marvelapp.ui.comic.paging
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.marvelapp.modals.base.Errors
-import com.marvelapp.modals.character.Character
-import com.marvelapp.modals.character.CharacterResponse
+import com.marvelapp.modals.base.PagingListResponse
+import com.marvelapp.modals.common.PagingItem
 import com.marvelapp.ui.character.paging.CharacterDataSource
 import com.marvelapp.ui.character.paging.CharacterDataSourceFactory
 
@@ -15,10 +15,10 @@ class CharacterViewModal : ViewModel() {
 
     private val pagedListConfig: PagedList.Config
     private val itemDataSourceFactory: CharacterDataSourceFactory
-    var itemPagedList: LiveData<PagedList<Character?>>
+    var itemPagedList: LiveData<PagedList<PagingItem?>>
 
     var error = MutableLiveData<Errors>()
-    var charResponse = MutableLiveData<CharacterResponse>()
+    var charResponse = MutableLiveData<PagingListResponse>()
     var bottomLoader = MutableLiveData<Boolean>()
 
     fun updateValues( search: String?) {

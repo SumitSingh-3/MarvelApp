@@ -2,29 +2,27 @@ package com.marvelapp.ui.character.paging
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.marvelapp.databinding.AdapterGridBinding
-import com.marvelapp.databinding.AdapterLoadingBinding
-import com.marvelapp.modals.character.Character
+import com.marvelapp.modals.common.PagingItem
 import com.marvelapp.utils.AppUtil
 
 
 class CharacterPagingAdapter :
-    PagedListAdapter<Character, CharacterPagingAdapter.ViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<PagingItem, CharacterPagingAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<Character> =
-            object : DiffUtil.ItemCallback<Character>() {
-                override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        private val DIFF_CALLBACK: DiffUtil.ItemCallback<PagingItem> =
+            object : DiffUtil.ItemCallback<PagingItem>() {
+                override fun areItemsTheSame(oldItem: PagingItem, newItem: PagingItem): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+                override fun areContentsTheSame(oldItem: PagingItem, newItem: PagingItem): Boolean {
                     return oldItem === newItem
                 }
             }
@@ -41,7 +39,7 @@ class CharacterPagingAdapter :
 
     inner class ViewHolder(private val binding: AdapterGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(char: Character) {
+        fun bind(char: PagingItem) {
             binding.name.text = char.name
             AppUtil.loadImage(
                 binding.image,

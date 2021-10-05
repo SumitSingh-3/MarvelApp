@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.marvelapp.databinding.FragmentComicBinding
+import com.marvelapp.ui.comic.paging.ComicAdapter
 
 
 class ComicFragment : Fragment() {

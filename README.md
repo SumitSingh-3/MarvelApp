@@ -2,9 +2,12 @@
 ### App which show comic and character using marvel apis
 
 #### ScreenShot
-![Alt text](/screenshot/Screenshot 2021-10-06 at 7.03.02 PM.png "")
 
-![Alt text](https://drive.google.com/file/d/16gbRlNsiUXm_HZNpd0Evd_T_Wj9cO32F/view?usp=sharing "")
+<div align="center">
+    <img src="/screenshot/Screenshot 2021-10-06 at 7.03.02 PM.png" width="200px"</img> 
+    <img src="/screenshot/Screenshot 2021-10-06 at 7.03.17 PM.png" width="200px"</img> 
+</div>
+
 
 
 ## Features

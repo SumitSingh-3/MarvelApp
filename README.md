@@ -2,7 +2,7 @@
 ### App which show comic and character using marvel apis
 
 #### ScreenShot
-![Alt text](https://drive.google.com/file/d/12klg54cdv372-uOtjNXMB9dutiueCJG7/view?usp=sharing "")
+![Alt text](/screenshot/Screenshot 2021-10-06 at 7.03.02 PM.png "")
 
 ![Alt text](https://drive.google.com/file/d/16gbRlNsiUXm_HZNpd0Evd_T_Wj9cO32F/view?usp=sharing "")
 

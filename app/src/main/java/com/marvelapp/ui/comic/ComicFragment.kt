@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelLazy
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip

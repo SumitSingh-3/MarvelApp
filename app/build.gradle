@@ -4,6 +4,11 @@ plugins {
     id 'kotlin-kapt'
 }
 
+// Load keystore
+def keyPropertiesFile = rootProject.file("key.properties");
+def keyProperties = new Properties()
+keyProperties.load(new FileInputStream(keyPropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -27,13 +32,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "MARVEL_PUBLIC_KEY", '"fd74b0e70369b9d1234fb363c314962a"'
-            buildConfigField "String", "MARVEL_PRIVATE_KEY", '"5bed11daba4c9ecdce50dbd0886e65809936fc8f"'
+            buildConfigField "String", "MARVEL_PUBLIC_KEY", keyProperties['MARVEL_PUBLIC_KEY']
+            buildConfigField "String", "MARVEL_PRIVATE_KEY", keyProperties['MARVEL_PRIVATE_KEY']
             buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com/"'
         }
         debug {
-            buildConfigField "String", "MARVEL_PUBLIC_KEY", '"fd74b0e70369b9d1234fb363c314962a"'
-            buildConfigField "String", "MARVEL_PRIVATE_KEY", '"5bed11daba4c9ecdce50dbd0886e65809936fc8f"'
+            buildConfigField "String", "MARVEL_PUBLIC_KEY", keyProperties['MARVEL_PUBLIC_KEY']
+            buildConfigField "String", "MARVEL_PRIVATE_KEY", keyProperties['MARVEL_PRIVATE_KEY']
             buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com/"'
         }
     }

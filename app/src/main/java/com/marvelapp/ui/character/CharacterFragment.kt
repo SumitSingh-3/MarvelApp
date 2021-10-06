@@ -99,7 +99,6 @@ class CharacterFragment : Fragment() {
     private fun setObserver() {
 
         searchHistoryRepository.searchHistory.observe(viewLifecycleOwner){it->
-            println("db data ----- $it")
             if(it.isNotEmpty()) {
 
                 val countries: Array<String?> = AppUtil.getSearchHistoryArray(it)

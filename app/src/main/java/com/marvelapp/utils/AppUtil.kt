@@ -1,6 +1,10 @@
 package com.marvelapp.utils
 
 import android.app.Activity
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -103,5 +107,17 @@ object AppUtil {
         }
 
         return history
+    }
+
+    fun hasNetwork(): Boolean? {
+        var isConnected: Boolean? = false
+        val connectivityManager = App.INSTANCE.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkCapabilities? = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (activeNetwork != null && (activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
+                    activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH)))
+            isConnected = true
+        return isConnected
     }
 }

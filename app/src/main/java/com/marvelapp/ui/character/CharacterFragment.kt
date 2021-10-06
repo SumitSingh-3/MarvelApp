@@ -5,23 +5,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelLazy
 import androidx.recyclerview.widget.GridLayoutManager
+import com.marvelapp.R
 import com.marvelapp.databinding.FragmentCharacterBinding
+import com.marvelapp.db.SearchHistory
+import com.marvelapp.db.SearchHistoryRepository
 import com.marvelapp.modals.base.PagingListResponse
 import com.marvelapp.ui.character.paging.CharacterPagingAdapter
 import com.marvelapp.utils.AppUtil
 import com.marvelapp.viewmodal.CharacterViewModal
+import com.marvelapp.viewmodal.MarvelViewModal
 
 
 class CharacterFragment : Fragment() {
 
     private lateinit var binding: FragmentCharacterBinding
     private lateinit var pagingAdapter: CharacterPagingAdapter
-    private val viewModel: CharacterViewModal by viewModels()
+
+    private val viewModel: MarvelViewModal by ViewModelLazy(
+        MarvelViewModal::class,
+        { requireActivity().viewModelStore },
+        { defaultViewModelProviderFactory }
+    )
+
     private lateinit var charRes: PagingListResponse
+
+    private val searchHistoryRepository = SearchHistoryRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,31 +85,52 @@ class CharacterFragment : Fragment() {
         binding.loader.visibility = View.VISIBLE
         AppUtil.hideKeyboard(binding.searchBar)
 
-        if (searchText.isNotEmpty())
+        if (searchText.isNotEmpty()) {
+            insetInDb(searchText)
             binding.clearText.visibility = View.VISIBLE
+        }
 
-        viewModel.updateValues(if (searchText.isEmpty()) null else searchText)
-        viewModel.itemPagedList.value?.dataSource?.invalidate()
+        viewModel.updateCharacterValues(if (searchText.isEmpty()) null else searchText)
+        viewModel.characterItemPagedList.value?.dataSource?.invalidate()
+    }
+
+    private fun insetInDb(search:String){
+        val searchHistory= SearchHistory(search)
+        searchHistoryRepository.insert(searchHistory)
     }
 
 
     private fun setObserver() {
+
+        searchHistoryRepository.searchHistory.observe(viewLifecycleOwner){it->
+            println("db data ----- $it")
+            if(it.isNotEmpty()) {
+
+                val countries: Array<String?> = AppUtil.getSearchHistoryArray(it)
+                // Create the adapter and set it to the AutoCompleteTextView
+                activity?.let {
+                    ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, countries).also { adapter ->
+                        binding.searchBar.setAdapter(adapter)
+                    }
+                }
+            }
+        }
 
         viewModel.charResponse.observe(viewLifecycleOwner){
             charRes = it
             binding.loader.visibility = View.GONE
         }
 
-        viewModel.itemPagedList.observe(viewLifecycleOwner)
+        viewModel.characterItemPagedList.observe(viewLifecycleOwner)
         {
             pagingAdapter.submitList(it)
         }
 
-        viewModel.bottomLoader.observe(viewLifecycleOwner) {
+        viewModel.characterBottomLoader.observe(viewLifecycleOwner) {
             binding.bottomLoader.visibility = if (it) View.VISIBLE else View.GONE
         }
 
-        viewModel.error.observe(viewLifecycleOwner){
+        viewModel.characterError.observe(viewLifecycleOwner){
             Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
         }
     }

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.marvelapp.base.App
+import com.marvelapp.db.SearchHistory
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -92,5 +93,15 @@ object AppUtil {
 
     fun formatYYYYMMDD(date: Date): String {
         return  SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date)
+    }
+
+    fun getSearchHistoryArray(list: List<SearchHistory>): Array<String?> {
+        val history = arrayOfNulls<String>(list.size)
+
+        for(i in history.indices){
+            history[i] = list[i].search
+        }
+
+        return history
     }
 }

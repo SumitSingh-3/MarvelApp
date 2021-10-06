@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelLazy
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.marvelapp.R
@@ -14,8 +15,7 @@ import com.marvelapp.databinding.FragmentComicBinding
 import com.marvelapp.modals.base.PagingListResponse
 import com.marvelapp.ui.comic.paging.ComicAdapter
 import com.marvelapp.utils.AppUtil
-import com.marvelapp.viewmodal.CharacterViewModal
-import com.marvelapp.viewmodal.ComicViewModal
+import com.marvelapp.viewmodal.MarvelViewModal
 
 
 class ComicFragment : Fragment() {
@@ -23,7 +23,12 @@ class ComicFragment : Fragment() {
     private lateinit var binding: FragmentComicBinding
     private lateinit var adapter: ComicAdapter
 
-    private val viewModel: ComicViewModal by viewModels()
+    private val viewModel: MarvelViewModal by ViewModelLazy(
+        MarvelViewModal::class,
+        { requireActivity().viewModelStore },
+        { defaultViewModelProviderFactory }
+    )
+
     private lateinit var response: PagingListResponse
 
     override fun onCreateView(
@@ -81,27 +86,27 @@ class ComicFragment : Fragment() {
 
     private fun applyFilter(filter: String?) {
         binding.loader.visibility = View.VISIBLE
-        viewModel.updateValues(filter)
-        viewModel.itemPagedList.value?.dataSource?.invalidate()
+        viewModel.updateComicValues(filter)
+        viewModel.comicItemPagedList.value?.dataSource?.invalidate()
     }
 
     private fun setObserver() {
 
-        viewModel.response.observe(viewLifecycleOwner){
+        viewModel.comicResponse.observe(viewLifecycleOwner){
             response = it
             binding.loader.visibility = View.GONE
         }
 
-        viewModel.itemPagedList.observe(viewLifecycleOwner)
+        viewModel.comicItemPagedList.observe(viewLifecycleOwner)
         {
             adapter.submitList(it)
         }
 
-        viewModel.bottomLoader.observe(viewLifecycleOwner) {
+        viewModel.comicBottomLoader.observe(viewLifecycleOwner) {
             binding.bottomLoader.visibility = if (it) View.VISIBLE else View.GONE
         }
 
-        viewModel.error.observe(viewLifecycleOwner){
+        viewModel.comicError.observe(viewLifecycleOwner){
             Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
         }
     }

@@ -9,4 +9,15 @@
     <string name="last_week">Last Week</string>
     <string name="this_week">This Week</string>
     <string name="clear">Clear</string>
+
+    <string-array name="search_array">
+        <item>Afghanistan</item>
+        <item>Albania</item>
+        <item>Algeria</item>
+        <item>American Samoa</item>
+        <item>Andorra</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Antarctica</item>
+    </string-array>
 </resources>

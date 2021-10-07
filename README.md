@@ -1,5 +1,5 @@
 # Marvel App
-### App which show comic and character using marvel apis
+### App which show comic and characters using marvel apis
 
 #### ScreenShot
 
@@ -10,7 +10,7 @@
 
 
 
-## Features
+## Tech
 
 - Room database
 - MVVM Architecture
@@ -22,7 +22,7 @@
 #### How to run project
 - Clone this project
 - Create key.properties file in your android project
-- Goto https://developer.marvel.com/ and create your account and genrate keys
+- Goto https://developer.marvel.com/ and create your account and generate keys
 - Put public and private keys in key.properties
 - Run project
 
